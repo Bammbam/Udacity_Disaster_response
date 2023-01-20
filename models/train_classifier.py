@@ -25,6 +25,8 @@ from textblob import TextBlob
 rel_database_filepath = '../data/Disaster_response.db'
 
 def load_data(rel_database_filepath):
+    """Read data from database"""
+
     engine = create_engine(f'sqlite:///{rel_database_filepath}')
     df = pd.read_sql_query("SELECT * FROM response_message", engine)
     # 'related' columns has value = 2 which is usual ==> replace it with 1
@@ -33,6 +35,7 @@ def load_data(rel_database_filepath):
 
 
 def tokenize(text):
+    """Transform raw text/sentence by remove stopwords, stemming, lemmatizing and, tokenize them"""
     lemmatizer = WordNetLemmatizer()
     stemmer = PorterStemmer()
     orig_text = text
@@ -44,6 +47,7 @@ def tokenize(text):
 
 
 class TextPolarizer(BaseEstimator, TransformerMixin):
+    """Custom transformer that giving Polarity values of each text datum"""
 
     def getPolarity(self, text):
         return TextBlob(text).sentiment.polarity
@@ -57,6 +61,7 @@ class TextPolarizer(BaseEstimator, TransformerMixin):
 
 
 def build_model():
+    """Combine features transformation step into single pipeline return model"""
     pipeline = Pipeline(steps=[
                    ('features', FeatureUnion([
                        (('tfidf', TfidfVectorizer(tokenizer=tokenize))),
@@ -75,11 +80,13 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """Printing model performance metrics"""
     print(classification_report(y_pred=model.predict(X_test), y_true=Y_test, target_names=category_names))
     pass
 
 
 def save_model(model, model_filepath):
+    """Save the trained model for future use"""
     pickle.dump(model, open(model_filepath, 'wb'))
     pass
 
