@@ -19,7 +19,8 @@ This project is a part of collaborative effort with figure-8 to classify message
 
 3. Run your web app: `python run.py`
 
-4. The command prompt will provide you the link to the page which look like this
+4. The command prompt will provide you the link to the page which look like this (http://0.0.0.0:3000/)
+
 <img src='Page_pic.jfif'></img>
 
 ## Licensing, Authors, Acknowledgements
