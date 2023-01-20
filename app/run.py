@@ -8,8 +8,17 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
+import joblib
 from sqlalchemy import create_engine
+
+from textblob import TextBlob
+
+
+# importing sys
+import sys
+# importing TextPolarizer
+sys.path.insert(0, '../models')
+from train_classifier import TextPolarizer
 
 
 app = Flask(__name__)
@@ -26,11 +35,13 @@ def tokenize(text):
     return clean_tokens
 
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/Disaster_response.db')
+df = pd.read_sql_table('response_message', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/clf_model.pkl")
+
+
 
 
 # index webpage displays cool visuals and receives user input text for model
