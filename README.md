@@ -1,6 +1,13 @@
 # Disaster Response Pipeline Project
+## Installation <a name="installation"></a>
+Here are the list of libraries needed to use run this project:
+sklearn, pandas, numpy, sql_alchemy, pickle, nltk, textblob
 
-### Instructions:
+## Brief summary<a name="motivation"></a>
+This project is a part of collaborative effort with figure-8 to classify messages sent during disasters with machine learning model.
+
+
+## Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -12,4 +19,8 @@
 
 3. Run your web app: `python run.py`
 
-4. Click the `PREVIEW` button to open the homepage
+4. The command prompt will provide you the link to the page which look like this
+<img src='Page_pic.jfif'></img>
+
+## Licensing, Authors, Acknowledgements
+Thanks to Figure-8 for providing the data for this project.
