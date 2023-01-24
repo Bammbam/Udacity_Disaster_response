@@ -100,6 +100,7 @@ def main():
         model = build_model()
         
         # print("checking category name: ", category_names)
+        breakpoint()
 
         print('Training model...')
         model.fit(X_train, Y_train)

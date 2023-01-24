@@ -34,7 +34,8 @@ def clean_data(message_df, category_df):
 def save_data(df, database_filename, table_name):
     """Export the cleaned data into a table in a database"""
     engine = create_engine(f'sqlite:///{database_filename}')
-    df.to_sql(f'{table_name}', engine, index=False, if_exist='replace')
+    # breakpoint()
+    df.to_sql(table_name, engine, index=False, if_exists='replace')
     pass 
 
 
