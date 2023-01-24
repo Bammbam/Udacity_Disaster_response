@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import re
+import numpy as np
 from sqlalchemy import create_engine
 
 
@@ -21,6 +22,8 @@ def clean_data(message_df, category_df):
     for col in cat_cols:
         category_df[col] = category_df[col].apply(lambda x: x.split('-')[1]).astype('int64')
     df = message_df.merge(category_df, how='left', left_on='id', right_on='id')
+    # related columns contains 2 in which it shouldn't, we'll clean it to one
+    df['related'] = np.where(df['related']==2, 1, df['related'])
 
     # There're some duplicated data, thus we'll eliminate it first
     df = df.drop_duplicates() 
@@ -31,7 +34,7 @@ def clean_data(message_df, category_df):
 def save_data(df, database_filename, table_name):
     """Export the cleaned data into a table in a database"""
     engine = create_engine(f'sqlite:///{database_filename}')
-    df.to_sql(f'{table_name}', engine, index=False)
+    df.to_sql(f'{table_name}', engine, index=False, if_exist='replace')
     pass 
 
 

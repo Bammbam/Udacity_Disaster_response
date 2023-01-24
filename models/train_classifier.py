@@ -29,8 +29,6 @@ def load_data(rel_database_filepath):
 
     engine = create_engine(f'sqlite:///{rel_database_filepath}')
     df = pd.read_sql_query("SELECT * FROM response_message", engine)
-    # 'related' columns has value = 2 which is usual ==> replace it with 1
-    df['related'] = np.where(df['related']==2, 1,df['related'])  
     return df['message'], df[df.columns[4:]], df.columns[4:]
 
 
