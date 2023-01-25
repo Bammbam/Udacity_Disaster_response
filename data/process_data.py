@@ -8,10 +8,12 @@ import os
 
 def load_data(messages_filepath, categories_filepath):
     """Read data using their raw files path and return result as DataFrame"""
-
-    messages = pd.read_csv(messages_filepath)
-    categories = pd.read_csv(categories_filepath)
-    return messages, categories
+    if os.path.exist(f'./{messages_filepath}'):
+        messages = pd.read_csv(messages_filepath)
+        categories = pd.read_csv(categories_filepath)
+        return messages, categories
+    else:
+        print("The script is run from wrong directory. Please change directory to ./data before running the script")
 
 
 def clean_data(message_df, category_df):
@@ -33,13 +35,13 @@ def clean_data(message_df, category_df):
 
 
 def save_data(df, database_filename, table_name):
-    if os.path.exist(f'./{database_filename}'):
-        """Export the cleaned data into a table in a database"""
-        engine = create_engine(f'sqlite:///{database_filename}')
-        # breakpoint()
-        df.to_sql(table_name, engine, index=False, if_exists='replace')
-    else: 
-        print("Please run this file on its directory. It use relative path thus, it can't find the database. \nPlease execute cd./data before running") 
+#     if os.path.exist(f'./{database_filename}'):
+    """Export the cleaned data into a table in a database"""
+    engine = create_engine(f'sqlite:///{database_filename}')
+    # breakpoint()
+    df.to_sql(table_name, engine, index=False, if_exists='replace')
+#     else: 
+#         print("Please run this file on its directory. It use relative path thus, it can't find the database. \nPlease execute cd./data before running") 
     pass 
 
 
