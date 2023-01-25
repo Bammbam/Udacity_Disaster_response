@@ -2,7 +2,8 @@ import sys
 import pandas as pd
 import re
 import numpy as np
-from sqlalchemy import create_engine
+from sqlalchemy import 
+import os
 
 
 def load_data(messages_filepath, categories_filepath):
@@ -32,10 +33,13 @@ def clean_data(message_df, category_df):
 
 
 def save_data(df, database_filename, table_name):
-    """Export the cleaned data into a table in a database"""
-    engine = create_engine(f'sqlite:///{database_filename}')
-    # breakpoint()
-    df.to_sql(table_name, engine, index=False, if_exists='replace')
+    if os.path.exist(f'./{database_filename}'):
+        """Export the cleaned data into a table in a database"""
+        engine = create_engine(f'sqlite:///{database_filename}')
+        # breakpoint()
+        df.to_sql(table_name, engine, index=False, if_exists='replace')
+    else: 
+        print("Please run this file on its directory. It use relative path thus, it can't find the database. \nPlease execute cd./data before running") 
     pass 
 
 
