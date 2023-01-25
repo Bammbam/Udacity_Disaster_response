@@ -31,4 +31,4 @@ This project is a part of collaborative effort with figure-8 to classify message
 Thanks to Figure-8 for providing the data for this project.
 
 
-You can the code to this project via: xxx
+You can the code to this project here: https://github.com/Bammbam/udacity_disaster_response
