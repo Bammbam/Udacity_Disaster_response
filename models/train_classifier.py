@@ -3,6 +3,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 import numpy as np
 import pickle
+import os 
 
 import nltk
 from nltk.tokenize import word_tokenize
@@ -26,10 +27,12 @@ rel_database_filepath = '../data/Disaster_response.db'
 
 def load_data(rel_database_filepath):
     """Read data from database"""
-
-    engine = create_engine(f'sqlite:///{rel_database_filepath}')
-    df = pd.read_sql_query("SELECT * FROM response_message", engine)
-    return df['message'], df[df.columns[4:]], df.columns[4:]
+    if os.path.exists(rel_database_filepath):
+        engine = create_engine(f'sqlite:///{rel_database_filepath}')
+        df = pd.read_sql_query("SELECT * FROM response_message", engine)
+        return df['message'], df[df.columns[4:]], df.columns[4:]
+    else:
+        print('You run the file in wrong directory. Please change directory to ./models before running the script')
 
 
 def tokenize(text):
