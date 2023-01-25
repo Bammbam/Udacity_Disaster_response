@@ -93,8 +93,8 @@ def save_model(model, model_filepath):
 
 
 def main():
-    try:
-        rel_database_filepath, model_filepath = '../data/Disaster_response.db', './clf_model.pkl'
+    rel_database_filepath, model_filepath = '../data/Disaster_response.db', './clf_model.pkl'
+    if os.path.exists(rel_database_filepath):
         print('Loading data...\n    DATABASE: {}'.format(rel_database_filepath))
         X, Y, category_names = load_data(rel_database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
@@ -103,7 +103,6 @@ def main():
         model = build_model()
         
         # print("checking category name: ", category_names)
-        breakpoint()
 
         print('Training model...')
         model.fit(X_train, Y_train)
@@ -115,9 +114,9 @@ def main():
         save_model(model, model_filepath)
 
         print('Trained model saved!')
-
-    except:
-        print("Something went wrong along the pipeline. Use log above to see where it went wrong")
+    else:
+        print('You run the file in wrong directory. Please change directory to ./models before running the script')
+        
 
 
 if __name__ == '__main__':

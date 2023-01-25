@@ -2,19 +2,15 @@ import sys
 import pandas as pd
 import re
 import numpy as np
-from sqlalchemy import 
+from sqlalchemy import create_engine
 import os
 
 
 def load_data(messages_filepath, categories_filepath):
     """Read data using their raw files path and return result as DataFrame"""
-    if os.path.exist(f'./{messages_filepath}'):
-        messages = pd.read_csv(messages_filepath)
-        categories = pd.read_csv(categories_filepath)
-        return messages, categories
-    else:
-        print("The script is run from wrong directory. Please change directory to ./data before running the script")
-
+    messages = pd.read_csv(messages_filepath)
+    categories = pd.read_csv(categories_filepath)
+    return messages, categories
 
 def clean_data(message_df, category_df):
     """Clean data to make it readable table"""
@@ -35,24 +31,22 @@ def clean_data(message_df, category_df):
 
 
 def save_data(df, database_filename, table_name):
-#     if os.path.exist(f'./{database_filename}'):
     """Export the cleaned data into a table in a database"""
     engine = create_engine(f'sqlite:///{database_filename}')
-    # breakpoint()
     df.to_sql(table_name, engine, index=False, if_exists='replace')
-#     else: 
-#         print("Please run this file on its directory. It use relative path thus, it can't find the database. \nPlease execute cd./data before running") 
     pass 
 
 
 def main():
-    try:
 
-        messages_filepath, categories_filepath, database_filepath = 'messages.csv','categories.csv','Disaster_response.db'
-        table_name = 'response_message'
+    messages_filepath, categories_filepath, database_filepath = 'messages.csv','categories.csv','Disaster_response.db'
+    table_name = 'response_message'
 
-        print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
-              .format(messages_filepath, categories_filepath))
+    print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
+            .format(messages_filepath, categories_filepath))
+    if os.path.exists(messages_filepath):
+        
+
         message_df, category_df = load_data(messages_filepath, categories_filepath)
 
         print('Cleaning data...')
@@ -62,10 +56,9 @@ def main():
         save_data(df, database_filepath, table_name)
         
         print('Cleaned data saved to database!')
-    
-    except:
-        print("Something went wrong along the pipeline. Use log above to see where it went wrong")
-
+    else:
+        print("Please run this file on its directory. It use relative path thus, it can't find the data sources. \nPlease execute cd./data before running")
+        exit()
 
 if __name__ == '__main__':
     main()
