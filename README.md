@@ -11,10 +11,12 @@ This project is a part of collaborative effort with figure-8 to classify message
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
+    
         `cd ./data`
         
         `python ./process_data.py`
     - To run ML pipeline that trains classifier and saves
+    
         `cd ./models`
         
         `python ./train_classifier.py`
